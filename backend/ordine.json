@@ -1,0 +1,22 @@
+{
+    "data": "",
+    "orario_consegna": "12-12:30",
+    "stato": "IN_PREPARAZIONE",
+    "pagato": "", 
+    "piatti": [{
+        "id": 1,
+        "nome": "pasta",
+        "prezzo": 10,
+        "immagine": "",
+        "ingredienti": [
+            "pasta"
+        ],
+        "note": ""
+    }],
+    "carta_fedelta": {
+        "id": 1,
+        "punti": 100,
+        "target_punti": 1000,
+        "descrizione": "sconto 10%"
+    }
+}
