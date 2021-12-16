@@ -24,3 +24,14 @@ export interface Filtro{
     function: FilterFunction,
     name: string
 }
+
+
+interface Orario {
+    giorno: string,
+    values: Array<{start:number, end: number}>
+}
+
+export interface Menu {
+    apertura: Array<Orario>,
+    categorie: Array<Categoria>
+}

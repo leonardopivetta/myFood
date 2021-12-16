@@ -1,78 +1,101 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { FiShoppingCart } from 'react-icons/fi';
 import { ShoppingCart } from '../../components/ShoppingCart';
-import { Categoria, Filtro, Piatto } from "../../types";
+import { Categoria, Filtro, Menu, Piatto } from "../../types";
 import {BiArrowBack, BiHappyAlt} from "react-icons/bi";
+import { BACKENDADDRESS, RESTAURANTNAME } from "../../constants";
+import Lottie from "react-lottie-player";
+import animationData from "../../animations/loading.json";
+import { BsEmojiSunglassesFill } from "react-icons/bs"; 
 
-const semplePiatti: Piatto[] = [
-    {
-        id: 1,
-        nome: 'Pizza',
-        prezzo: 10.0,
-        ingredienti: ["Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo",]
-    },
-    {
-        id: 2,
-        nome: 'Pasta',
-        prezzo: 15.0,
-    },
-    {
-        id: 3,
-        nome: 'Spaghetti',
-        prezzo: 20.0,
-    },
-    {
-        id: 4,
-        nome: 'Bibita',
-        prezzo: 5.0,
-        ingredienti: ["vegan"]
-    },
-    {
-        id: 5,
-        nome: 'Pizza',
-        prezzo: 10.0,
-        ingredienti: ["Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo",]
-    },
-    {
-        id: 6,
-        nome: 'Pasta',
-        prezzo: 15.0,
-    },
-    {
-        id: 7,
-        nome: 'Spaghetti',
-        prezzo: 20.0,
-    },
-    {
-        id: 8,
-        nome: 'Bibita',
-        prezzo: 5.0,
-        ingredienti: ["gluten-free"]
-    }
-];
+// const semplePiatti: Piatto[] = [
+//     {
+//         id: 1,
+//         nome: 'Pizza',
+//         prezzo: 10.0,
+//         ingredienti: ["Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo",]
+//     },
+//     {
+//         id: 2,
+//         nome: 'Pasta',
+//         prezzo: 15.0,
+//     },
+//     {
+//         id: 3,
+//         nome: 'Spaghetti',
+//         prezzo: 20.0,
+//     },
+//     {
+//         id: 4,
+//         nome: 'Bibita',
+//         prezzo: 5.0,
+//         ingredienti: ["vegan"]
+//     },
+//     {
+//         id: 5,
+//         nome: 'Pizza',
+//         prezzo: 10.0,
+//         ingredienti: ["Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo", "Pasta", "Pomodoro", "Mozzarella", "Pollo",]
+//     },
+//     {
+//         id: 6,
+//         nome: 'Pasta',
+//         prezzo: 15.0,
+//     },
+//     {
+//         id: 7,
+//         nome: 'Spaghetti',
+//         prezzo: 20.0,
+//     },
+//     {
+//         id: 8,
+//         nome: 'Bibita',
+//         prezzo: 5.0,
+//         ingredienti: ["gluten-free"]
+//     }
+// ];
 
-const sampleCategorie: Categoria[] = Array.from({ length: 4 }).map((_, i) => {
-    return {
-        id: i + 1,
-        nome: `Categoria ${i + 1}`,
-        piatti: semplePiatti.slice(i * 2, i * 2 + 2)
-    }
-})
+// const sampleCategorie: Categoria[] = Array.from({ length: 4 }).map((_, i) => {
+//     return {
+//         id: i + 1,
+//         nome: `Categoria ${i + 1}`,
+//         piatti: semplePiatti.slice(i * 2, i * 2 + 2)
+//     }
+// })
 
-export const Menu = () => {
+export const MenuPage = () => {
     const [selectedPiatto, setSelectedPiatto] = useState<Piatto | undefined>(undefined);
+    const [menu, setMenu] = useState<Menu | undefined>(undefined);
+
+    useEffect(() => {
+        fetch(BACKENDADDRESS+'menu')
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                // setMenu(res[0]);
+            }).catch(console.error)
+    },[]);
+
+    if(menu == undefined){
+        return <div className="h-screen w-screen flex justify-center align-middle flex-col">
+            <div className="mx-auto flex space-x-2">
+                <p className="text-center text-lg">Stiamo caricando i piatti</p><BsEmojiSunglassesFill size={32} className="animate-bounce duration-70"/>
+            </div>
+                <Lottie animationData={animationData} loop style={{height: "70%", width:"70%"}} play className="mx-auto"/>
+        </div>
+    }
 
     return (
         <div className="flex h-full w-full">
             <ShoppingCart />
-            <LeftPart setSelected={setSelectedPiatto} selected={selectedPiatto} />
+            <LeftPart setSelected={setSelectedPiatto} selected={selectedPiatto} menu={menu!} />
             <RightPart piatto={selectedPiatto} />
         </div>
     )
 };
 
 
-const LeftPart: FunctionComponent<{ setSelected: Function, selected?: Piatto }> = (props) => {
+const LeftPart: FunctionComponent<{ setSelected: Function, selected?: Piatto, menu: Menu}> = (props) => {
 
     const [filtri, setFiltri] = useState<Filtro[]>([]);
 
@@ -80,7 +103,7 @@ const LeftPart: FunctionComponent<{ setSelected: Function, selected?: Piatto }> 
         <div className="w-1/3 overflow-y-auto h-screen border border-gray-300 border-r-2">
             <Filtri filters={filtri} setFilter={setFiltri}/>
             {
-                sampleCategorie.map(categoria => {
+                props.menu.categorie.map(categoria => {
                     const piattiFiltered = categoria.piatti.filter((e)=>{
                         let result = true;
                         filtri.forEach((f)=>{

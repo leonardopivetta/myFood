@@ -13,7 +13,7 @@ export const OrderList = () => {
         })
     }, []);
 
-    return <div>
-        {JSON.stringify(res)}
+    return <div className="h-screen w-screen bg-gray-600 flex flex-col justify-center">
+        
     </div>
 }
