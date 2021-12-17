@@ -6,11 +6,6 @@ const Schema = mongoose.Schema;
 // subdocument schema
 
 const CategoriaSchema = new Schema({
-    id: {
-        type: Number,
-        required: true,
-        unique: true
-    },
     nome: {
         type: String,
         required: true

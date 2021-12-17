@@ -6,7 +6,6 @@ const Schema = mongoose.Schema;
 // subdocument schema
 
 const CartaFedeltaSchema = new Schema({
-    id: String,
     punti: {
         type: Number,
         default: 0
