@@ -1,5 +1,5 @@
 export interface Piatto {
-    id: number,
+    _id: number,
     nome: string,
     prezzo: number,
     descrizione?: string,
@@ -10,7 +10,7 @@ export interface Piatto {
 }
 
 export interface Categoria {
-    id: number,
+    _id: number,
     nome: string,
     piatti: Piatto[];
 }

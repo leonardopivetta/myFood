@@ -50,7 +50,7 @@ export const OrderPage = () => {
                                             <p className="text-lg">{piatto.prezzo.toFixed(2)}€</p>
                                         </div>
                                         <TiDeleteOutline size={30} className="text-primary mx-1 transform hover:scale-105 duration-150" onClick={() => {
-                                            const newPiatti = piatti.filter(p => p.id !== piatto.id);
+                                            const newPiatti = piatti.filter(p => p._id !== piatto._id);
                                             localStorage.setItem("cart", JSON.stringify(newPiatti));
                                             setPiatti(newPiatti);
                                         }} />
@@ -88,11 +88,11 @@ export const OrderPage = () => {
                                 <input className="rounded-xl p-2 shadow-lg flex-grow flex justify-center transform hover:-translate-y-1 duration-300" ref={orario} required type={"time"} step={"any"}></input>
                             </div>
                             <div id="indirizzo" className="flex my-3">
-                                <h1 className="text-xl py-3 mr-4"><b>Indirizzo di consegna:</b></h1>
-                                <input type="text" className="rounded-xl p-2 w-1/2 shadow-lg flex-grow  transform hover:-translate-y-1 duration-300" placeholder="Inserisci qui il tuo indirizzo..." ref={indirizzo}></input>
+                                <h1 className="text-xl py-3 mr-4 sm:-mr-12"><b>Indirizzo di consegna:</b></h1>
+                                <input type="text" className="rounded-xl p-2 shadow-lg flex-grow  transform hover:-translate-y-1 duration-300" placeholder="Inserisci qui il tuo indirizzo..." ref={indirizzo}></input>
                             </div>
                             <div id="note" className="flex my-3">
-                                <h1 className="text-xl py-3 mr-4"><b>Note sulla consegna:</b></h1>
+                                <h1 className="text-xl py-3 mr-4 sm:-mr-12"><b>Note sulla consegna:</b></h1>
                                 <textarea className="flex-grow shadow-lg rounded-xl p-2 hover:-translate-y-1 duration-300 transform" placeholder="Non suonare al campanello, chiamare quando si arriva, etc..." ref={note}></textarea>
                             </div>
                             <div id="cartaFedeltà" className="flex justify-center my-3" >
