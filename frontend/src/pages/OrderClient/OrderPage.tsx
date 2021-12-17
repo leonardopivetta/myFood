@@ -3,10 +3,14 @@ import { Piatto } from "../../types"
 import { TiDeleteOutline } from "react-icons/ti"
 import {BiWinkSmile} from "react-icons/bi"
 import "./OrederPage.css";
+import { CartaFedelta } from "./components/CartaFedelta";
+import Popup from "reactjs-popup";
 
 export const OrderPage = () => {
 
     const [piatti, setPiatti] = useState<Piatto[]>(JSON.parse(window.localStorage.getItem("cart") || "[]"));
+    const [cartaFedeltaSelcted, setCartaedeltaSelcted] = useState<boolean>(false);
+    const [errore, setErrore] = useState<string>("");
 
     const orario = useRef<HTMLInputElement>(null);
     const indirizzo = useRef<HTMLInputElement>(null);
@@ -23,6 +27,15 @@ export const OrderPage = () => {
 
     return (
         <div>
+            <Popup open={errore !== ""} >
+                <div className="h-screen w-screen bg-black bg-opacity-25 backdrop-blur-sm backdrop-filter flex flex-col justify-center"
+                    onClick={() => setErrore("")}
+                >
+                    <div className="container w-2/3 p-5 rounded-3xl mx-auto text-lg text-center bg-white">
+                        {errore}
+                    </div>
+                </div>
+            </Popup>
             <div className="container self-center mx-auto px-2 lg:w-2/3">
                 <h1 className="text-3xl py-3">Riepilogo Ordine</h1>
                 <div id="piatti" className="rounded-3xl p-2 shadow-lg">
@@ -57,7 +70,8 @@ export const OrderPage = () => {
                                 <div className="flex">
                                     <p className="text-xl"><b>Totale</b></p>
                                     <div className="flex-grow"></div>
-                                    <p className="text-xl"><b>{piatti.reduce((a, b) => a + b.prezzo, 0).toFixed(2)}€</b></p>
+                                    <p className={"text-xl "+ (cartaFedeltaSelcted?"line-through":"font-bold") }>{piatti.reduce((a, b) => a + b.prezzo, 0).toFixed(2)}€</p>
+                                    {cartaFedeltaSelcted && <p className="text-xl ml-2"><b>{(piatti.reduce((a, b) => a + b.prezzo, 0) * 0.9).toFixed(2)}€</b></p>}
                                     <div className="w-10"></div>
                                 </div>
                             </div>
@@ -81,7 +95,10 @@ export const OrderPage = () => {
                                 <h1 className="text-xl py-3 mr-4"><b>Note sulla consegna:</b></h1>
                                 <textarea className="flex-grow shadow-lg rounded-xl p-2 hover:-translate-y-1 duration-300 transform" placeholder="Non suonare al campanello, chiamare quando si arriva, etc..." ref={note}></textarea>
                             </div>
-                            <div id="sceltaPagamento w-100">
+                            <div id="cartaFedeltà" className="flex justify-center my-3" >
+                                <CartaFedelta selected={cartaFedeltaSelcted} setSelected={setCartaedeltaSelcted}/>
+                            </div>
+                            <div id="sceltaPagamento" className="w-100">
                                 <h1 className="text-xl py-3 mr-4 text-center"><b>Scegli il metodo di pagamento:</b></h1>
                                 <div className="flex justify-evenly">
                                     <div className="w-1/3 bg-primary hover:bg-secondary duration-300 px-2 rounded-xl group shadow-lg hover:-translate-y-1 transform hover:shadow-xl"
@@ -92,22 +109,21 @@ export const OrderPage = () => {
                                                 indirizzo.current!.value = "";
                                                 note.current!.value = "";
                                                 localStorage.removeItem("cart");
-                                                setPiatti([]);
-                                                alert("Ordine effettuato con successo!");
                                                 window.location.href = "/success";
+                                                setPiatti([]);
                                             } else {
-                                                alert(res);
+                                                setErrore(res);
                                             }
                                         }}
                                     >
-                                        <p className="text-center py-7 text-white text-lg"><b>PAGA ONLINE</b></p>
+                                        <p className="text-center py-7 text-white text-lg"><b>PAGA IN CONTANTI</b></p>
                                     </div>
                                     <div className="w-1/3 bg-primary hover:bg-secondary duration-300 px-2 rounded-xl group shadow-lg hover:-translate-y-1 transform hover:shadow-xl"
                                         onClick={() => {
-                                            alert("inoltro a pagina per il pagamento (per mandare l'ordine cliccare paga in contanti)");
+                                            setErrore("inoltro a pagina per il pagamento (per mandare l'ordine cliccare paga in contanti)");
                                         }}
                                     >
-                                        <p className="text-center py-7 text-white text-lg"><b>PAGA IN CONTANTI</b></p>
+                                        <p className="text-center py-7 text-white text-lg"><b>PAGA ONLINE</b></p>
                                     </div>
                                 </div>
                             </div>
