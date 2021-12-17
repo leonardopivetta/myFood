@@ -1,0 +1,60 @@
+{
+    "nome": "ristorante bello",
+	"apertura": {
+		"1": [{
+			"start": 0,
+			"finish": 12
+		}],
+		"2": [{
+			"start": 0,
+			"finish": 12
+		}],
+		"4": [{
+			"start": 11,
+			"finish": 17
+		}],
+		"3": [{
+			"start": 0,
+			"finish": 12
+		}],
+		"5": [{
+			"start": 10,
+			"finish": 14
+		}],
+		"6": [{
+			"start": 0,
+			"finish": 12
+		}],
+		"7": [{
+			"start": 0,
+			"finish": 12
+		}]
+	},
+	"categorie": [{
+			"id": 1,
+			"nome": "Categoria 1",
+			"piatti": [{
+				"id": 1,
+				"nome": "pasta",
+				"prezzo": 10,
+				"immagine": "",
+				"ingredienti": [
+					"pasta"
+				]
+			}]
+		},
+		{
+			"id": 2,
+			"nome": "Categoria 2",
+			"piatti": [{
+				"id": 2,
+				"prezzo": 10,
+				"immagine": "",
+				"ingredienti": [
+					"riso",
+					"sale"
+				]
+			}]
+		}
+	]
+}
