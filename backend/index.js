@@ -12,7 +12,12 @@ const app = express()
 app.use(cors({ allowedHeaders: "*" }))
 app.use(bodyParser.json())
 
-// todo socket, jsdocs
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+// todo jsdocs
 
 app.get('/:id_ristorante/api/menu',
     param('id_ristorante').notEmpty().isString(),
@@ -74,6 +79,8 @@ app.post('/:id_ristorante/api/ordine/inserisci',
 
         ordine.save().then(doc => {
             res.send("success")
+
+            io.local.emit("newOrder");
         }, err => {
             res.send("failure")
             console.log(err)
@@ -140,6 +147,10 @@ app.delete('/api/ordine/elimina/:_id',
             })
     }
 );
+
+server.listen(3000, () => {
+    console.log('listening on *:3000');
+});
 
 app.listen(4001);
 module.exports = app;
