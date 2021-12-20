@@ -1,0 +1,205 @@
+{
+    "_id": {
+        "$oid": "61bb4a7d20b24847630dac07"
+    },
+    "id_ristorante": "ristorante_bello",
+    "apertura": {
+        "Lun": [
+            {
+                "start": 8,
+                "end": 22
+            }
+        ],
+        "Mar": [
+            {
+                "start": 8,
+                "end": 22
+            }
+        ],
+        "Mer": [
+            {
+                "start": 8,
+                "end": 22
+            }
+        ],
+        "Gio": [
+            {
+                "start": 8,
+                "end": 22
+            }
+        ],
+        "Ven": [
+            {
+                "start": 8,
+                "end": 22
+            }
+        ],
+        "Sab": [
+            {
+                "start": 8,
+                "end": 22
+            }
+        ],
+        "Dom": [
+            {
+                "start": 8,
+                "end": 22
+            }
+        ]
+    },
+    "categorie": [
+        {
+            "id": 1,
+            "nome": "Primi Piatti",
+            "piatti": [
+                {
+                    "id": 1,
+                    "nome": "Pasta Estiva",
+                    "prezzo": 10,
+                    "immagine": "https://images.unsplash.com/photo-1587206668283-c21d974993c3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
+                    "ingredienti": [
+                        "pasta",
+                        "pomodorini",
+                        "basilico",
+                        "grana a scaglie",
+                        "vegetariano"
+                    ]
+                },
+                {
+                    "id": 2,
+                    "nome": "Tagliatelle al ragù di cervo",
+                    "prezzo": 12.50,
+                    "immagine": "https://images.unsplash.com/photo-1611270629569-8b357cb88da9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                    "ingredienti": [
+                        "tagliatelle",
+                        "carne di cervo",
+                        "prezzemolo"
+                    ]
+                },
+                {
+                    "id": 3,
+                    "nome": "Risotto alla montanara",
+                    "prezzo": 11,
+                    "immagine": "https://images.unsplash.com/photo-1637361874063-e5e415d7bcf7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                    "ingredienti": [
+                        "riso",
+                        "funghi",
+                        "rosmarino",
+                        "gluten-free",
+                        "vegan"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "nome": "Secondi Piatti",
+            "piatti": [
+                {
+                    "id": 1,
+                    "nome": "Tagliata con patate",
+                    "prezzo": 20,
+                    "immagine": "https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
+                    "ingredienti": [
+                        "patate",
+                        "tagliata di manzo",
+                        "peperoni"
+                    ]
+                },
+                {
+                    "id": 2,
+                    "nome": "Panino Vegano",
+                    "prezzo": 10,
+                    "immagine": "https://images.unsplash.com/photo-1525059696034-4967a8e1dca2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80",
+                    "ingredienti": [
+                        "pane",
+                        "avocado",
+                        "insalata",
+                        "pomodoro",
+                        "hamburger vegano",
+                        "vegan"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "nome": "Dolci",
+            "piatti": [
+                {
+                    "id": 1,
+                    "nome": "Tiramisu della casa",
+                    "prezzo": 4,
+                    "immagine": "https://images.unsplash.com/photo-1586040140378-b5634cb4c8fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80",
+                    "ingredienti": [
+                        "mascarpone",
+                        "cacao",
+                        "caffe",
+                        "savoiardi",
+                        "vegetariano"
+                    ]
+                },
+                {
+                    "id": 2,
+                    "nome": "Cheesecake",
+                    "prezzo": 4,
+                    "immagine": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                    "ingredienti": [
+                        "cheese",
+                        "cake"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "nome": "Bevande",
+            "piatti": [
+                {
+                    "id": 1,
+                    "nome": "Acqua naturale",
+                    "prezzo": 2,
+                    "immagine": "https://images.unsplash.com/photo-1553564552-02656d6a2390?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=715&q=80",
+                    "ingredienti": [
+                        "acqua",
+                        "vegan",
+                        "gluten-free"
+                    ]
+                },
+                {
+                    "id": 2,
+                    "nome": "Acqua frizzante",
+                    "prezzo": 2,
+                    "immagine": "https://images.unsplash.com/photo-1551753103-f121bd83be46?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                    "ingredienti": [
+                        "acqua",
+                        "vegan",
+                        "gluten-free"
+                    ]
+                },
+                {
+                    "id": 3,
+                    "nome": "Cola",
+                    "prezzo": 3,
+                    "immagine": "https://images.unsplash.com/photo-1619180125475-eb8ae18a6b1b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=850&q=80",
+                    "ingredienti": [
+                        "cola",
+                        "vegan",
+                        "gluten-free"
+                    ]
+                },
+                {
+                    "id": 4,
+                    "nome": "The Freddo",
+                    "prezzo": 3,
+                    "immagine": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
+                    "ingredienti": [
+                        "the",
+                        "vegan",
+                        "gluten-free"
+                    ]
+                }
+            ]
+        }
+    ]
+}

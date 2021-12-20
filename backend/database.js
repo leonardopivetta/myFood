@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
 
-const server = '173.249.17.85:27017';
+const server = 'localhost:27017';
 const database = 'myfood';
 
 class Database {
@@ -14,7 +14,7 @@ _connect() {
          console.log('Database connection successful')
        })
        .catch(err => {
-         console.error('Database connection error')
+         console.error('Database connection error ' + err)
        })
   }
 }
