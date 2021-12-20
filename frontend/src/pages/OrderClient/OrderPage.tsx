@@ -13,7 +13,7 @@ export const OrderPage = () => {
     const [cartaFedeltaSelcted, setCartaedeltaSelcted] = useState<boolean>(false);
     const [errore, setErrore] = useState<string>("");
 
-    const orario = useRef<HTMLInputElement>(null);
+    const orario = useRef<HTMLSelectElement>(null);
     const indirizzo = useRef<HTMLInputElement>(null);
     const note = useRef<HTMLTextAreaElement>(null);
 
@@ -38,7 +38,6 @@ export const OrderPage = () => {
         fetch(BACKENDADDRESS + "menu")
             .then(res => res.json())
             .then(res => {
-                console.log(res);
                 setOrariList(res.apertura[0].Lun);
             })
     }, []);
@@ -46,7 +45,7 @@ export const OrderPage = () => {
     const checkIfCorrect = () => {
         if (piatti.length === 0) return "Nessun piatto selezionato";
         if (orario.current?.value === "") return "Orario non inserito";
-        if (orario.current?.value.length !== 5) return "Orario non corretto";
+        // if (orario.current?.value.length !== 5) return "Orario non corretto";
         if (indirizzo.current?.value === "") return "Indirizzo non inserito";
         return "";
     }
@@ -112,7 +111,7 @@ export const OrderPage = () => {
                             <div className="h-3"></div>
                             <div id="scegli orario" className="flex my-3">
                                 <h1 className="text-xl py-3 mr-4"><b>Scegli orario:</b></h1>
-                                <select className="rounded-xl shadow-lg flex-grow p-2">
+                                <select className="rounded-xl shadow-lg flex-grow p-2" ref={orario}>
                                     {
                                         getSplitted(orariList).map(orario => <option>{orario}</option>)
                                     }
@@ -136,13 +135,28 @@ export const OrderPage = () => {
                                     <div className="w-1/3 bg-primary hover:bg-secondary duration-300 px-2 rounded-xl group shadow-lg hover:-translate-y-1 transform hover:shadow-xl"
                                         onClick={() => {
                                             const res = checkIfCorrect();
-                                            if (res === "") {
-                                                orario.current!.value = "";
-                                                indirizzo.current!.value = "";
-                                                note.current!.value = "";
-                                                localStorage.removeItem("cart");
-                                                window.location.href = "/success";
-                                                setPiatti([]);
+                                            if (res === "") {    
+                                                const requestBody = {
+                                                    orario_consegna: orario.current!.value,
+                                                    indirizzo: indirizzo.current!.value,
+                                                    note: note.current!.value,
+                                                    cartaFedelta: {"usata":cartaFedeltaSelcted},
+                                                    piatti: piatti,
+                                                    pagato:"contanti"
+                                                };
+                                                fetch(BACKENDADDRESS+"ordine/inserisci", {
+                                                    method: "POST",
+                                                    headers: {"Content-Type": "application/json"},
+                                                    body: JSON.stringify(requestBody)
+                                                }).then(res=>{
+                                                    orario.current!.value = "";
+                                                    indirizzo.current!.value = "";
+                                                    note.current!.value = "";
+                                                    localStorage.removeItem("cart");
+                                                    window.location.href = "/success";
+                                                    setPiatti([]);
+                                                });
+                                                
                                             } else {
                                                 setErrore(res);
                                             }
