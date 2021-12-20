@@ -26,7 +26,7 @@ export interface Filtro{
 }
 
 
-interface Orario {
+export interface Orario {
     giorno: string,
     values: Array<{start:number, end: number}>
 }

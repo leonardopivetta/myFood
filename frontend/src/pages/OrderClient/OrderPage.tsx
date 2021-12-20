@@ -1,10 +1,11 @@
-import { useRef, useState } from "react"
-import { Piatto } from "../../types"
+import { useEffect, useRef, useState } from "react"
+import { Menu, Orario, Piatto } from "../../types"
 import { TiDeleteOutline } from "react-icons/ti"
 import {BiWinkSmile} from "react-icons/bi"
 import "./OrederPage.css";
 import { CartaFedelta } from "./components/CartaFedelta";
 import Popup from "reactjs-popup";
+import { BACKENDADDRESS } from "../../constants";
 
 export const OrderPage = () => {
 
@@ -15,6 +16,32 @@ export const OrderPage = () => {
     const orario = useRef<HTMLInputElement>(null);
     const indirizzo = useRef<HTMLInputElement>(null);
     const note = useRef<HTMLTextAreaElement>(null);
+
+    const [orariList, setOrariList] = useState<Array<{start:number, end: number}>>([]);
+
+    const getSplitted = (inp: {start: number; end: number}[]) => {
+        let out: string[] = [];
+        inp.forEach(e =>{
+            for(let i = e.start; i < e.end; i+=0.5){
+                if(i%1 === 0){
+                    out.push(i+":00 - "+i+":30");
+                }else{
+                    out.push(Math.floor(i)+":30 - "+(i+0.5)+":00");
+                }
+            }
+        });
+        return out;
+    };
+
+
+    useEffect(()=>{
+        fetch(BACKENDADDRESS + "menu")
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                setOrariList(res.apertura[0].Lun);
+            })
+    }, []);
 
     const checkIfCorrect = () => {
         if (piatti.length === 0) return "Nessun piatto selezionato";
@@ -85,14 +112,19 @@ export const OrderPage = () => {
                             <div className="h-3"></div>
                             <div id="scegli orario" className="flex my-3">
                                 <h1 className="text-xl py-3 mr-4"><b>Scegli orario:</b></h1>
-                                <input className="rounded-xl p-2 shadow-lg flex-grow flex justify-center transform hover:-translate-y-1 duration-300" ref={orario} required type={"time"} step={"any"}></input>
+                                <select className="rounded-xl shadow-lg flex-grow p-2">
+                                    {
+                                        getSplitted(orariList).map(orario => <option>{orario}</option>)
+                                    }
+                                </select>
+                                {/* <input className="rounded-xl p-2 shadow-lg flex-grow flex justify-center transform hover:-translate-y-1 duration-300" ref={orario} required type={"time"} step={"any"}></ùinput> */}
                             </div>
                             <div id="indirizzo" className="flex my-3">
-                                <h1 className="text-xl py-3 mr-4 sm:-mr-12"><b>Indirizzo di consegna:</b></h1>
-                                <input type="text" className="rounded-xl p-2 shadow-lg flex-grow  transform hover:-translate-y-1 duration-300" placeholder="Inserisci qui il tuo indirizzo..." ref={indirizzo}></input>
+                                <h1 className="text-xl py-3 mr-4 sm:-mr-12 md:mr-2 "><b>Indirizzo di consegna:</b></h1>
+                                <input type="text" className=" frounded-xl p-2 shadow-lg rounded-xl flex-grow  transform hover:-translate-y-1 duration-300" placeholder="Inserisci qui il tuo indirizzo..." ref={indirizzo}></input>
                             </div>
                             <div id="note" className="flex my-3">
-                                <h1 className="text-xl py-3 mr-4 sm:-mr-12"><b>Note sulla consegna:</b></h1>
+                                <h1 className="text-xl py-3 mr-4 sm:-mr-12 md:mr-2"><b>Note sulla consegna:</b></h1>
                                 <textarea className="flex-grow shadow-lg rounded-xl p-2 hover:-translate-y-1 duration-300 transform" placeholder="Non suonare al campanello, chiamare quando si arriva, etc..." ref={note}></textarea>
                             </div>
                             <div id="cartaFedeltà" className="flex justify-center my-3" >
