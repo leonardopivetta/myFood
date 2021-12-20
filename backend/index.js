@@ -139,10 +139,18 @@ app.get('/:id_ristorante/api/ordini',
  *               type: string
  *               example: "12-12:30"
  *               description: "Indica l'orario in cui verrà consegnato l'ordine"
+ *             indirizzo:
+ *               type: string
+ *               example: "Via Sommarive, 9, 38123 Povo,Trento TN"
+ *               description: "L'indirizzo dove consegnare l'ordine"
  *             pagato:
  *               type: string 
  *               example: "3n66fk7sd5nlign56fim5g8mpi87nfg5mp7i"
  *               description: "L'identificativo del pagamento, se effettuato online."
+ *             note:
+ *               type: string 
+ *               example: "Non suonare il campanello"
+ *               description: "Note opzionali riguardanti l'ordine."
  *             piatti:
  *               type: array
  *               items: 
@@ -158,6 +166,7 @@ app.get('/:id_ristorante/api/ordini',
 app.post('/:id_ristorante/api/ordine/inserisci',
     param('id_ristorante').notEmpty().isString(),
     body('orario_consegna').notEmpty(),
+    body('indirizzo').notEmpty(),
     body('pagato').notEmpty().isString(),
     body('piatti').notEmpty().isArray(),
     (req, res) => {
@@ -169,7 +178,9 @@ app.post('/:id_ristorante/api/ordine/inserisci',
         let ordine = new OrdineModel({
             "id_ristorante": req.params.id_ristorante,
             "orario_consegna": req.body["orario_consegna"],
+            "indirizzo": req.body["indirizzo"],
             "pagato": req.body["pagato"],
+            "note": req.body["note"]?? "",
             "piatti": req.body["piatti"],
             "carta_fedelta": req.body["carta_fedelta"]
         })
@@ -297,7 +308,7 @@ app.delete('/api/ordine/elimina/:_id',
 );
 
 server.listen(3000, () => {
-    console.log('listening on *:3000');
+    console.log('sockets listening on *:3000');
 });
 
 app.listen(4001);

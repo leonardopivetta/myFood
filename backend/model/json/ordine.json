@@ -2,6 +2,7 @@
     "creazione": "",
     "id_ristorante": "",
     "orario_consegna": "12-12:30",
+    "indirizzo" : "Via Sommarive, 9, 38123 Povo,Trento TN",
     "stato": "IN_PREPARAZIONE",
     "pagato": "",
     "piatti": [

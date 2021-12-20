@@ -31,6 +31,10 @@ var OrdineSchema = new Schema({
         type: String, 
         required: true
     },
+    indirizzo: {
+        type: String, 
+        required: true
+    },
     stato: {
         type: String,
         default: "ATTESA_CONFERMA"
@@ -38,6 +42,10 @@ var OrdineSchema = new Schema({
     pagato: {
         type: String,
         default: ""
+    },
+    note: {
+        type: String, 
+        required: false
     },
     piatti: [PiattoSchema],
     carta_fedelta: {
