@@ -35,3 +35,11 @@ export interface Menu {
     apertura: Array<Orario>,
     categorie: Array<Categoria>
 }
+
+export interface Ordine{
+    _id: string,
+    stato: string,
+    piatti: Array<Piatto>,
+    note: string,
+    orario_consegna: string
+}
