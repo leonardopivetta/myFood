@@ -19,8 +19,8 @@ beforeAll(async (done) => {
 // Applies to all tests in this file
 afterAll(async (done) => {
 
-  // try to delete the menu(s) of the test restaurant. we could assume there is at most one menu associated with 
-  // the testing restaurant and used #deleteOne(). We're using deleteOne
+  // try to delete the menu(s) of the test restaurant. we could assume there is at most one 
+  // menu associated with the testing restaurant and used #deleteOne(). We're using deleteOne
   await MenuModel.deleteMany({ id_ristorante: ID_RISTORANTE })
 
 
@@ -230,7 +230,8 @@ describe('Test Ordini', () => {
     expect(response.status).toBe(200)
   });
 
-  // try to get all orders in the ATTESA_CONFERMA state. there shouldn't be any since we've just updated the state of the only order created in one of the tests above
+  // try to get all orders in the ATTESA_CONFERMA state. there shouldn't be any since we've just updated the 
+  // state of the only order created in one of the tests above
   test("/GET /:id_ristorante/api/ordini | There shouldn't be any order in the ATTESA_CONFERMA state", async () => {
     const response = await request(app)
       .get('/' + ID_RISTORANTE + '/api/ordini')

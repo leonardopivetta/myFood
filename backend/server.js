@@ -1,8 +1,8 @@
 const app = require('./app');
-const openConnection = require('./database');
+const database = require('./database');
 
 // open mongo connection
-openConnection();
+database.openConnection();
 
 // start express app
 app.listen(4001, () => "App listening on port 4001");
