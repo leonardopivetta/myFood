@@ -1,7 +1,4 @@
 {
-    "_id": {
-        "$oid": "61bb4a7d20b24847630dac07"
-    },
     "id_ristorante": "ristorante_bello",
     "apertura": {
         "Lun": [
@@ -68,7 +65,7 @@
                 {
                     "id": 2,
                     "nome": "Tagliatelle al ragù di cervo",
-                    "prezzo": 12.50,
+                    "prezzo": 12.5,
                     "immagine": "https://images.unsplash.com/photo-1611270629569-8b357cb88da9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
                     "ingredienti": [
                         "tagliatelle",

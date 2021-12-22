@@ -24,7 +24,7 @@ var MenuSchema = new Schema({
         required: true
     },
     apertura: {
-        type: [], // todo change data type (?)
+        type: Object,
         required: true
     },
     categorie: {

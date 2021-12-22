@@ -3,10 +3,8 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const { body, validationResult, param } = require('express-validator');
 
-const database = require('./database.js');
-
-const OrdineModel = require('./model/Ordine.js')
 const MenuModel = require('./model/Menu.js')
+const OrdineModel = require('./model/Ordine.js')
 
 const app = express()
 app.use(cors({ allowedHeaders: "*" }))
@@ -18,6 +16,10 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
+server.listen(3000, () => {
+    console.log('sockets listening on *:3000');
+});
+
 // documentation
 const swaggerJsDocs = require('swagger-jsdoc');
 const swaggerUIExpress = require('swagger-ui-express');
@@ -28,11 +30,10 @@ const swaggerOptions = {
         info: {
             title: "MyFood API",
             description: "Documentazione API MyFood",
-            // servers: "http://localhost"
-            version: "1.0.0.0"
+            version: "1.0.0"
         }
     },
-    apis: ["index.js"]
+    apis: ["app.js"]
 }
 
 const swaggerDocs = swaggerJsDocs(swaggerOptions)
@@ -55,23 +56,33 @@ app.use('/api-docs', swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerDocs)
  *     responses:
  *       200:
  *         description: Ritorna i dati richiesti in formato JSON.
+ *       400:
+ *         description: "L'id del ristorante passato come parametro è invalido."
+ *       500:
+ *         description: "Errore interno."
  */
 app.get('/:id_ristorante/api/menu',
     param('id_ristorante').notEmpty().isString(),
-    (req, res) => {
-        MenuModel.findOne({
+    async (req, res) => {
+        await MenuModel.findOne({
             "id_ristorante": req.params.id_ristorante
         }).then(doc => {
             if (doc == null) {
+                res.status(400)
                 res.send("failure. invalid id_ristorante")
             } else {
+                res.status(200)
                 res.send(doc)
             }
         }, err => {
-            res.send("failure")
             console.log(err)
+
+            res.status(500)
+            res.send("failure")
         }).catch(err => {
             console.error(err)
+
+            res.status(500)
             res.send("an error occurred")
         })
     }
@@ -93,6 +104,8 @@ app.get('/:id_ristorante/api/menu',
  *     responses:
  *       200:
  *         description: Ritorna i dati richiesti in formato JSON.
+ *       500:
+ *         description: "Errore interno."
  */
 app.get('/:id_ristorante/api/ordini',
     param('id_ristorante').notEmpty().isString(),
@@ -101,12 +114,18 @@ app.get('/:id_ristorante/api/ordini',
             "id_ristorante": req.params.id_ristorante,
             "stato": "ATTESA_CONFERMA"
         }).then(doc => {
+            // the document might be empty
+            res.status(200)
             res.send(doc)
         }, err => {
-            res.send("failure")
             console.log(err)
+
+            res.status(500)
+            res.send("failure")
         }).catch(err => {
             console.error(err)
+
+            res.status(500)
             res.send("an error occurred")
         })
     }
@@ -160,8 +179,12 @@ app.get('/:id_ristorante/api/ordini',
  *               type: object
  *               description: "La carta fedaltà utilizzata per lo sconto, se se ne fa uso."
  *     responses:
- *       200:
- *         description: "Ritorna 'success' ad indicare l'avvenuto inserimento."
+ *       201:
+ *         description: "L'ordine è stato inserito con successo e ritorna l'ObjectId generato dal database (associato alla key 'id')."
+ *       400:
+ *         description: "Almeno un argomento del body e/o parameto della richiesta è invalido."
+ *       500:
+ *         description: "Errore interno."
  */
 app.post('/:id_ristorante/api/ordine/inserisci',
     param('id_ristorante').notEmpty().isString(),
@@ -172,6 +195,7 @@ app.post('/:id_ristorante/api/ordine/inserisci',
     (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+
             return res.status(400).json({ errors: errors.array() });
         }
 
@@ -180,20 +204,25 @@ app.post('/:id_ristorante/api/ordine/inserisci',
             "orario_consegna": req.body["orario_consegna"],
             "indirizzo": req.body["indirizzo"],
             "pagato": req.body["pagato"],
-            "note": req.body["note"]?? "",
+            "note": req.body["note"] ?? "",
             "piatti": req.body["piatti"],
             "carta_fedelta": req.body["carta_fedelta"]
         })
 
         ordine.save().then(doc => {
-            res.send("success")
+            res.status(201)
+            res.json({ id: doc._id })
 
             io.local.emit("newOrder");
         }, err => {
-            res.send("failure")
             console.log(err)
+
+            res.status(500)
+            res.send("failure")
         }).catch(err => {
             console.error(err)
+
+            res.status(500)
             res.send("an error occurred")
         })
     }
@@ -201,17 +230,11 @@ app.post('/:id_ristorante/api/ordine/inserisci',
 
 /**
  * @openapi
- * /{id_ristorante}/api/ordine/aggiorna_stato:
+ * /api/ordine/aggiorna_stato:
  *   post:
  *     summary: Aggiornamento dello stato dell'ordine.
  *     description: "Aggiornamento dello stato di un ordine già presente nel database."
  *     parameters:
- *       - in: path
- *         name: id_ristorante
- *         schema:
- *           type: string
- *         required: true
- *         description: ID del ristorante a cui fa riferimento il menu da recuperare
  *       - in: body
  *         name: req
  *         description: I dati da aggiornare.
@@ -231,7 +254,11 @@ app.post('/:id_ristorante/api/ordine/inserisci',
  *               description: il nuovo stato che andrà a sostituire quello attualmente presente
  *     responses:
  *       200:
- *         description: "Ritorna 'success' ad indicare l'avvenuto inserimento."
+ *         description: "Ritorna 'success' ad indicare l'avvenuto aggiornamento."
+ *       400:
+ *         description: "Almeno un argomento del body è invalido."
+ *       500:
+ *         description: "Errore interno."
  */
 app.post('/api/ordine/aggiorna_stato',
     body('id').notEmpty().isString(),
@@ -250,15 +277,21 @@ app.post('/api/ordine/aggiorna_stato',
             }).then(doc => {
                 if (doc == null) {
                     // the specified order doesn't exist
+                    res.status(500)
                     res.send("failure. invalid id")
                 } else {
+                    res.status(200)
                     res.send("success")
                 }
             }, err => {
-                res.send("failure")
                 console.log(err)
+
+                res.status(500)
+                res.send("failure")
             }).catch(err => {
                 console.error(err)
+
+                res.status(500)
                 res.send("an error occurred")
             })
     }
@@ -280,6 +313,10 @@ app.post('/api/ordine/aggiorna_stato',
  *     responses:
  *       200:
  *         description: "Ritorna 'success' ad indicare l'avvenuta eliminazione."
+ *       400:
+ *         description: "L'id passato come parametro non non è valido."
+ *       500:
+ *         description: "Errore interno."
  */
 app.delete('/api/ordine/elimina/:_id',
     param('_id').notEmpty().isString(),
@@ -293,23 +330,24 @@ app.delete('/api/ordine/elimina/:_id',
             .then(doc => {
                 if (doc == null) {
                     // the specified order doesn't exist
+                    res.status(400)
                     res.send("failure. invalid id")
                 } else {
+                    res.status(200)
                     res.send("success")
                 }
             }, err => {
-                res.send("failure")
                 console.log(err)
+
+                res.status(500)
+                res.send("failure")
             }).catch(err => {
                 console.error(err)
+
+                res.status(500)
                 res.send("an error occurred")
             })
     }
 );
 
-server.listen(3000, () => {
-    console.log('sockets listening on *:3000');
-});
-
-app.listen(4001);
 module.exports = app;
