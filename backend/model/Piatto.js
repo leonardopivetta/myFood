@@ -1,10 +1,6 @@
 var mongoose = require("mongoose");
 
 const PiattoSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        required: true
-    },
     nome: {
         type: String,
         required: true
@@ -15,7 +11,7 @@ const PiattoSchema = new mongoose.Schema({
     },
     immagine: {
         type: String,
-        required: true
+        required: false
     },
     ingredienti: {
         type: [String],

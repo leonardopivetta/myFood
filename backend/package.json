@@ -2,10 +2,13 @@
   "name": "myfood-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon server.js",
     "test": "jest"
+  },
+  "jest": {
+    "testRunner": "jest-jasmine2"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +18,10 @@
     "express": "^4.17.1",
     "express-validator": "^6.13.0",
     "mongoose": "^6.1.2",
+    "nodemon": "^2.0.15",
+    "socket.io": "^4.4.0",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {

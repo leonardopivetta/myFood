@@ -1,22 +1,21 @@
 let mongoose = require('mongoose');
 
-const server = '173.249.17.85:27017';
+const server = 'localhost:27017';
 const database = 'myfood';
 
-class Database {
-  constructor() {
-    this._connect()
-  }
-  
-_connect() {
-     mongoose.connect(`mongodb://${server}/${database}`)
-       .then(() => {
-         console.log('Database connection successful')
-       })
-       .catch(err => {
-         console.error('Database connection error')
-       })
+const openConnection = async () => {
+  try {
+    await mongoose.connect(`mongodb://${server}/${database}`)
+
+    console.log('Database connection successful')
+  } catch (err) {
+    console.error('Database connection failed ' + err)
   }
 }
 
-module.exports = new Database()
+const closeConnection = async () => {
+  await mongoose.connection.close()
+  console.log('Database connection closed')
+}
+
+module.exports = { openConnection, closeConnection }

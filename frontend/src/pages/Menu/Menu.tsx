@@ -186,6 +186,13 @@ const Filtri: FunctionComponent<{ filters: Filtro[], setFilter: Function }> = pr
             function: (e: Piatto) => {
                 return e.ingredienti?.includes("vegan") ?? false;
             },
+        },
+        {
+            id: 3,
+            name: "Per vegetariani",
+            function: (e: Piatto) => {
+                return (e.ingredienti?.includes("vegetariano") || e.ingredienti?.includes("vegan")) ?? false;
+            },
         }
     ];
 

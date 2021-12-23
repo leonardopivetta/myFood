@@ -24,7 +24,6 @@
 /frontend/build
 
 # misc
-/frontend/.DS_Store
 /frontend/.env.local
 /frontend/.env.development.local
 /frontend/.env.test.local
@@ -33,3 +32,5 @@
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
 /frontend/yarn-error.log*
+
+*.DS_Store
