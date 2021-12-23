@@ -60,7 +60,7 @@ export const OrderList = () => {
                                             id: selected?._id
                                         })
                                     };
-                                    fetch(BACKENDADDRESS+"ordine/aggiorna_stato", options).then(res => (res.status === 200) ? setSelcted(undefined) : console.log("Errore"));
+                                    fetch(BACKENDPORTADDRESS+"api/ordine/aggiorna_stato", options).then(res => (res.status === 200) ? setSelcted(undefined) : console.log("Errore"));
                                 }}
                             >
                                 CONFERMA
