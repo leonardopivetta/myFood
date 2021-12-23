@@ -6,7 +6,6 @@ const Schema = mongoose.Schema;
 // subdocument schema
 
 const CartaFedeltaSchema = new Schema({
-    id: String,
     punti: {
         type: Number,
         default: 0
@@ -32,6 +31,10 @@ var OrdineSchema = new Schema({
         type: String, 
         required: true
     },
+    indirizzo: {
+        type: String, 
+        required: true
+    },
     stato: {
         type: String,
         default: "ATTESA_CONFERMA"
@@ -39,6 +42,10 @@ var OrdineSchema = new Schema({
     pagato: {
         type: String,
         default: ""
+    },
+    note: {
+        type: String, 
+        required: false
     },
     piatti: [PiattoSchema],
     carta_fedelta: {
