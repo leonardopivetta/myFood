@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
 
-const server = 'vmi153773.contaboserver.net:27017';
+const server = 'localhost:27017';
 const database = 'myfood';
 
 const openConnection = async () => {

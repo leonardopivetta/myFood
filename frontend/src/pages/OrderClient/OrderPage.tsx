@@ -38,7 +38,7 @@ export const OrderPage = () => {
         fetch(BACKENDADDRESS + "menu")
             .then(res => res.json())
             .then(res => {
-                setOrariList(res.apertura[0].Lun);
+                setOrariList(res.apertura.Lun);
             })
     }, []);
 

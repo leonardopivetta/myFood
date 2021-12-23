@@ -1,3 +1,4 @@
 export const RESTAURANTNAME = "ristorante_bello";
-export const HOSTNAME = "http://173.249.17.85";
-export const BACKENDADDRESS = HOSTNAME+":4001/"+RESTAURANTNAME+"/api/";
+export const HOSTNAME = "http://vmi153773.contaboserver.net";
+export const BACKENDPORTADDRESS = HOSTNAME + ":4001/";
+export const BACKENDADDRESS = BACKENDPORTADDRESS + RESTAURANTNAME + "/api/";

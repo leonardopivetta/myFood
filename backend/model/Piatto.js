@@ -11,7 +11,7 @@ const PiattoSchema = new mongoose.Schema({
     },
     immagine: {
         type: String,
-        required: true
+        required: false
     },
     ingredienti: {
         type: [String],

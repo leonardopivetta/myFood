@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Popup from "reactjs-popup";
 import { io } from "socket.io-client"
-import { BACKENDADDRESS, HOSTNAME } from "../../constants";
+import { BACKENDADDRESS, HOSTNAME, BACKENDPORTADDRESS } from "../../constants";
 import { Ordine } from "../../types";
 
 export const OrderList = () => {
@@ -17,6 +17,13 @@ export const OrderList = () => {
          });
         var socket = io(HOSTNAME+":3000", {transports: ['websocket']});
         socket.on("newOrder", (res)=>{
+            fetch(`${BACKENDADDRESS}ordini`)
+            .then(res => res.json())
+            .then(res => { 
+                setOrders(res);
+            });
+        })
+        socket.on("updatedOrder", (res)=>{
             fetch(`${BACKENDADDRESS}ordini`)
             .then(res => res.json())
             .then(res => { 
@@ -56,7 +63,7 @@ export const OrderList = () => {
                                         stato: "ANNULLATO"
                                     })
                                 };
-                                fetch(BACKENDADDRESS+"ordine/aggiorna_stato", options).then(res => (res.status === 200) ? setSelcted(undefined) : console.log("Errore"));
+                                fetch(BACKENDPORTADDRESS+"api/ordine/aggiorna_stato", options).then(res => (res.status === 200) ? setSelcted(undefined) : console.log("Errore"));
                             }}>
                                 RIFIUTA
                             </div>

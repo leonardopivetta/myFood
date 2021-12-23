@@ -31,13 +31,7 @@ const swaggerOptions = {
             title: "MyFood API",
             description: "Documentazione API MyFood",
             version: "1.0.0"
-        },
-        servers: [
-            {
-                url: 'http://vmi153773.contaboserver.net:4001/',
-                description: 'Development server',
-            },
-        ]
+        }
     },
     apis: ["app.js"]
 }
@@ -288,6 +282,8 @@ app.post('/api/ordine/aggiorna_stato',
                 } else {
                     res.status(200)
                     res.send("success")
+
+                    io.local.emit("updatedOrder");
                 }
             }, err => {
                 console.log(err)
