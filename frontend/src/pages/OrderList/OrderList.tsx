@@ -41,7 +41,21 @@ export const OrderList = () => {
                             <p className="font-bold text-lg">Totale: {selected?.piatti.reduce((a, c)=> (a + c.prezzo), 0).toFixed(2)}€</p>
                         </div>
                         <div className="flex justify-evenly">
-                            <div className="bg-green-400 px-5 py-2 rounded-3xl shadow-md font-bold text-white transform hover:scale-105 duration-150 select-none">
+                            <div className="bg-green-400 px-5 py-2 rounded-3xl shadow-md font-bold text-white transform hover:scale-105 duration-150 select-none"
+                                onClick={()=>{
+                                    const options = {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify({
+                                            stato: "IN_PREPARAZIONE",
+                                            id: selected?._id
+                                        })
+                                    };
+                                    fetch(BACKENDADDRESS+"ordine/aggiorna_stato", options).then(res => (res.status === 200) ? setSelcted(undefined) : console.log("Errore"));
+                                }}
+                            >
                                 CONFERMA
                             </div>
                             <div className="bg-red-400 px-5 py-2 rounded-3xl shadow-md font-bold text-white transform hover:scale-105 duration-150 select-none"
