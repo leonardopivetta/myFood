@@ -1,5 +1,5 @@
 export interface Piatto {
-    id: number,
+    _id: number,
     nome: string,
     prezzo: number,
     descrizione?: string,
@@ -10,7 +10,7 @@ export interface Piatto {
 }
 
 export interface Categoria {
-    id: number,
+    _id: number,
     nome: string,
     piatti: Piatto[];
 }
@@ -23,4 +23,23 @@ export interface Filtro{
     id: number,
     function: FilterFunction,
     name: string
+}
+
+
+export interface Orario {
+    giorno: string,
+    values: Array<{start:number, end: number}>
+}
+
+export interface Menu {
+    apertura: Array<Orario>,
+    categorie: Array<Categoria>
+}
+
+export interface Ordine{
+    _id: string,
+    stato: string,
+    piatti: Array<Piatto>,
+    note: string,
+    orario_consegna: string
 }
